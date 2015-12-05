@@ -1,11 +1,12 @@
 # Jupyter Notebook Python, Scala, Nodejs, Spark
 
-Jupyter Notebook image modified from (Jupyter project)[https://github.com/jupyter/docker-stacks], to include only Python 2.7, Scala 2.10, Nodejs 5.1.1, and Spark 1.5.2.
+Jupyter Notebook image modified from [Jupyter project](https://github.com/jupyter/docker-stacks), to include only Python 2.7, Scala 2.10, Nodejs 5.1.1, and Spark 1.5.2.
 
 ####Note
 
-Nodejs is served via (iJavascript)[https://www.npmjs.com/package/ijavascript] and has no interaction with Spark. 
-However, you can use try out a simple single node pseudo-map-reduce implementation via (mrcluster)[https://www.npmjs.com/package/mrcluster], which comes pre-installed with the image.
+Nodejs is served via [iJavascript](https://www.npmjs.com/package/ijavascript) and has no interaction with Spark. 
+
+However, you can use try out a simple single node pseudo-map-reduce implementation via [mrcluster](https://www.npmjs.com/package/mrcluster), which comes pre-installed with the image.
 
 ## What it Gives You
 
@@ -65,7 +66,7 @@ rdd.takeSample(false, 5)
 
 0. Run the container as shown above.
 1. Open a Nodejs notebook.
-2. Require (mrcluster)[https://www.npmjs.com/package/mrcluster]
+2. Require [mrcluster](https://www.npmjs.com/package/mrcluster)
 
 For example:
 
