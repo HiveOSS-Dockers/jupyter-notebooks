@@ -3,47 +3,6 @@ MAINTAINER eterna2 <eterna2@hotmail.com>
 
 USER root
 
-# Spark dependencies
-ENV APACHE_SPARK_VERSION 1.5.2
-RUN apt-get -y update && \
-    apt-get install -y --no-install-recommends openjdk-7-jre-headless && \
-    apt-get clean
-RUN wget -qO - http://d3kbcqa49mib13.cloudfront.net/spark-${APACHE_SPARK_VERSION}-bin-hadoop2.6.tgz | tar -xz -C /usr/local/
-RUN cd /usr/local && ln -s spark-${APACHE_SPARK_VERSION}-bin-hadoop2.6 spark
-# Spark pointers
-ENV SPARK_HOME /usr/local/spark
-ENV PYTHONPATH $SPARK_HOME/python:$SPARK_HOME/python/lib/py4j-0.8.2.1-src.zip
-
-
-
-# Scala Spark kernel (build and cleanup)
-RUN cd /tmp && \
-    echo deb http://dl.bintray.com/sbt/debian / > /etc/apt/sources.list.d/sbt.list && \
-    apt-get update && \
-    git clone https://github.com/ibm-et/spark-kernel.git && \
-    apt-get install -yq --force-yes --no-install-recommends sbt && \
-    cd spark-kernel && \
-    git checkout 29856a785a && \
-    sbt compile -Xms1024M \
-        -Xmx2048M \
-        -Xss1M \
-        -XX:+CMSClassUnloadingEnabled \
-        -XX:MaxPermSize=1024M && \
-    sbt pack && \
-    mv kernel/target/pack /opt/sparkkernel && \
-    chmod +x /opt/sparkkernel && \
-    rm -rf ~/.ivy2 && \
-    rm -rf ~/.sbt && \
-    rm -rf /tmp/spark-kernel && \
-    apt-get remove -y sbt && \
-    apt-get clean
-
-# Scala Spark kernel spec
-RUN mkdir -p /opt/conda/share/jupyter/kernels/scala
-COPY kernels/scala.json /opt/conda/share/jupyter/kernels/scala/
-
-
-
 # Node
 # gpg keys listed at https://github.com/nodejs/node
 RUN set -ex \
@@ -79,7 +38,6 @@ RUN mkdir -p /opt/conda/share/jupyter/kernels/javascript
 COPY kernels/nodejs.json /opt/conda/share/jupyter/kernels/javascript/kernel.json
 
 
-
 # Python dependencies
 RUN apt-get -y update && \
   apt-get install -y python-qt4 && \
@@ -92,23 +50,6 @@ USER jovyan
 RUN conda install --yes \
     'python=2.7*' \
     'ipython=4.0*' \
-    'ipywidgets=4.0*' \
-    'pandas=0.16*' \
-    'matplotlib=1.4*' \
-    'scipy=0.15*' \
-    'seaborn=0.6*' \
-    'scikit-learn=0.16*' \
-    'scikit-image=0.11*' \
-    'sympy=0.7*' \
-    'cython=0.22*' \
-    'patsy=0.3*' \
-    'statsmodels=0.6*' \
-    'cloudpickle=0.1*' \
-    'dill=0.2*' \
-    'numba=0.20*' \
-    'bokeh=0.9*' \
-    'gensim=0.12*' \
-    pyzmq \
     && conda clean -yt
 
 USER root
