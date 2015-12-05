@@ -70,33 +70,33 @@ rdd.takeSample(false, 5)
 
 For example:
 
-```
+```javascript
 const mrcluster = require("mrcluster");
 
-# Do a simple unique word count via map reduce
+// Do a simple unique word count via map reduce
 mrcluster.init()
     .file("mockdata_from_mockaroo.csv")	
-	# line delimiter is \n 
+	// line delimiter is \n 
     .lineDelimiter('\n')
-	# each block is 1 Mb 
+	// each block is 1 Mb 
 	.blockSize(1)	
-	# 2 mappers 
+	// 2 mappers 
 	.numMappers(2)
-	# 3 reducers 
+	// 3 reducers 
     .numReducers(3)	
-	# function to map a line of data to a key-value pair 
+	// function to map a line of data to a key-value pair 
     .map(function (line) {
-		# tokenize line 
-		# select 2nd col and tokenize it again 
-		# get the domain or return NA if null 
-		# return a key-value pair of format [domain,1] 
+		// tokenize line 
+		// select 2nd col and tokenize it again 
+		// get the domain or return NA if null 
+		// return a key-value pair of format [domain,1] 
         return [line.split(',')[1].split('@')[1] || 'NA', 1];
     })
-	# simple reduce function which return a value of 1 
+	// simple reduce function which return a value of 1 
     .reduce(function (a, b) {
         return 1;
     })
-	# sum the values of all key-value pairs in the Reducer 
+	// sum the values of all key-value pairs in the Reducer 
     .post_reduce(function (obj) {
         var res = Object.keys(obj).map(function (key) {
             return obj[key];
@@ -106,13 +106,13 @@ mrcluster.init()
             return a+b;
         });
     })
-	# sum the results returned by all the Reducers 
+	// sum the results returned by all the Reducers 
     .aggregate(function (hash_array) {
         console.log("Total: " + hash_array.reduce(function (a, b) {
             return a + b;
         }))
     })
-	# start MapReduce job 
+	// start MapReduce job 
     .start();
 ```
 
