@@ -40,7 +40,7 @@ RUN cd /tmp && \
 
 # Scala Spark kernel spec
 RUN mkdir -p /opt/conda/share/jupyter/kernels/scala
-COPY kernels/scala.json /opt/conda/share/jupyter/kernels/scala/
+COPY kernels/scala.json /opt/conda/share/jupyter/kernels/scala/kernel.json
 
 
 
