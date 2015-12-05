@@ -1,6 +1,6 @@
 # Jupyter Notebook Python, Scala, Nodejs, Spark
 
-Jupyter Notebook image modified from [Jupyter project](https://github.com/jupyter/docker-stacks), to include only Python 2.7, Scala 2.10, Nodejs 5.1.1, and Spark 1.5.2.
+Jupyter Notebook image modified from [Jupyter project](https://github.com/jupyter/docker-stacks) for Nodejs 5.1.1.
 
 ####Note
 
@@ -11,11 +11,7 @@ However, you can use try out a simple single node pseudo-map-reduce implementati
 ## What it Gives You
 
 * Jupyter Notebook 4.0.x
-* Conda Python 2.7.x environments
-* Scala 2.10.x
 * Nodejs 5.1.1
-* pyspark, pandas, matplotlib, scipy, seaborn, scikit-learn pre-installed for Python
-* Spark 1.5.2 for use in local mode or to connect to a cluster of Spark workers
 * Unprivileged user `jovyan` (uid=1000, configurable, see options) in group `users` (gid=100) with ownership over `/home/jovyan` and `/opt/conda`
 * [tini](https://github.com/krallin/tini) as the container entrypoint and [start-notebook.sh](../minimal-notebook/start-notebook.sh) as the default command
 * Options for HTTPS, password auth, and passwordless `sudo`
@@ -26,41 +22,8 @@ However, you can use try out a simple single node pseudo-map-reduce implementati
 The following command starts a container with the Notebook server listening for HTTP connections on port 8888 without authentication configured.
 
 ```
-docker run -d -p 8888:8888 hiveoss/jupyter-notebooks:py-scala-node
+docker run -d -p 8888:8888 hiveoss/jupyter-notebooks:node
 ```
-
-## Using Spark Local Mode
-
-This configuration is nice for using Spark on small, local data.
-
-0. Run the container as shown above.
-2. Open a Python 2 notebook.
-3. Create a `SparkContext` configured for local mode.
-
-For example, the first few cells in a Python 2 notebook might read:
-
-```python
-import pyspark
-sc = pyspark.SparkContext('local[*]')
-
-# do something to prove it works
-rdd = sc.parallelize(range(1000))
-rdd.takeSample(False, 5)
-```
-
-### In a Scala Notebook
-
-0. Run the container as shown above.
-1. Open a Scala notebook.
-2. Use the pre-configured `SparkContext` in variable `sc`.
-
-For example:
-
-```
-val rdd = sc.parallelize(0 to 999)
-rdd.takeSample(false, 5)
-```
-
 
 ### In a Nodejs Notebook
 
