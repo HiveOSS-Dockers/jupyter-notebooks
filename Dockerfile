@@ -31,7 +31,7 @@ RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-
   && rm "node-v$NODE_VERSION-linux-x64.tar.gz" SHASUMS256.txt.asc
   
 # iJavascript
-RUN npm install -g ijavascript mrcluster
+RUN npm install -g ijavascript mrcluster npmi
 
 # install iJavascript kernel
 RUN mkdir -p /opt/conda/share/jupyter/kernels/javascript
